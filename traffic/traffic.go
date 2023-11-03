@@ -1,0 +1,65 @@
+package traffic
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/go-resty/resty/v2"
+	"github.com/loojee/douyinx/config"
+	"net/http"
+	"sync"
+)
+
+var (
+	c *client
+	o sync.Once
+)
+
+type client struct {
+	client *resty.Client
+	conf   *config.Config
+
+	httpClient *http.Client
+}
+
+type Option func(c *client)
+
+func WithClient(httpClient *http.Client) Option {
+	return func(c *client) {
+		c.httpClient = httpClient
+	}
+}
+
+func MustInit(conf *config.Config, options ...Option) {
+	if c == nil {
+		o.Do(func() {
+			c = &client{
+				httpClient: http.DefaultClient,
+				conf:       conf,
+			}
+
+			for _, option := range options {
+				option(c)
+			}
+
+			c.client = resty.NewWithClient(c.httpClient)
+		})
+	}
+}
+
+func genUrl(path string) string {
+	return c.conf.DouYinHost + path
+}
+
+func PostJSON(ctx context.Context, path string, req any, resp any) error {
+	rsp, err := c.client.R().SetContext(ctx).SetBody(req).Post(genUrl(path))
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(rsp.Request.URL)
+
+	fmt.Println(rsp.String())
+
+	return json.Unmarshal(rsp.Body(), &resp)
+}
