@@ -11,14 +11,14 @@ import (
 	"time"
 )
 
-type ClientTokenRefresher struct {
+type ClientToken struct {
 	config *config.Config
 	cache  cache.Cache
 	key    string
 }
 
-func NewClientTokenRefresher(config *config.Config, c cache.Cache) *ClientTokenRefresher {
-	token := &ClientTokenRefresher{
+func NewClientTokenRefresher(config *config.Config, c cache.Cache) *ClientToken {
+	token := &ClientToken{
 		config: config,
 		cache:  c,
 		key:    config.CachePrefix + ":client_token",
@@ -29,7 +29,7 @@ func NewClientTokenRefresher(config *config.Config, c cache.Cache) *ClientTokenR
 	return token
 }
 
-func (r *ClientTokenRefresher) mustRefresh(ctx context.Context) {
+func (r *ClientToken) mustRefresh(ctx context.Context) {
 	for {
 		if err := r.refresh(ctx); err != nil {
 			fmt.Println("refresh client token error: ", err)
@@ -41,7 +41,7 @@ func (r *ClientTokenRefresher) mustRefresh(ctx context.Context) {
 	}
 }
 
-func (r *ClientTokenRefresher) refresh(ctx context.Context) (err error) {
+func (r *ClientToken) refresh(ctx context.Context) (err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = fmt.Errorf("refresh client token panic")
@@ -70,7 +70,7 @@ func (r *ClientTokenRefresher) refresh(ctx context.Context) (err error) {
 }
 
 // GetToken 获取 client_token
-func (r *ClientTokenRefresher) GetToken(ctx context.Context) (string, error) {
+func (r *ClientToken) GetToken(ctx context.Context) (string, error) {
 	value, ok, err := r.cache.Get(ctx, r.key)
 	if err != nil {
 		return "", err

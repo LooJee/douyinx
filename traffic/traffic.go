@@ -58,7 +58,18 @@ func PostJSON(ctx context.Context, path string, req any, resp any) error {
 	}
 
 	fmt.Println(rsp.Request.URL)
+	fmt.Println(rsp.String())
 
+	return json.Unmarshal(rsp.Body(), &resp)
+}
+
+func PostUrlEncodeForm(ctx context.Context, path string, req Former, resp any) error {
+	rsp, err := c.client.R().SetContext(ctx).SetFormData(req.IntoForm()).Post(genUrl(path))
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(rsp.Request.URL)
 	fmt.Println(rsp.String())
 
 	return json.Unmarshal(rsp.Body(), &resp)
