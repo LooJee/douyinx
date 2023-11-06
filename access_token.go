@@ -1,14 +1,14 @@
-package auth
+package douyinx
 
 import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/loojee/douyinx/cache"
 	"github.com/loojee/douyinx/config"
-	"github.com/loojee/douyinx/constants"
-	"github.com/loojee/douyinx/errorx"
-	"github.com/loojee/douyinx/traffic"
+	"github.com/loojee/douyinx/pkg/cache"
+	"github.com/loojee/douyinx/pkg/constants"
+	"github.com/loojee/douyinx/pkg/errorx"
+	"github.com/loojee/douyinx/pkg/traffic"
 	"github.com/loojee/douyinx/types"
 	"time"
 )

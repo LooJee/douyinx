@@ -1,6 +1,6 @@
 package types
 
-import "github.com/loojee/douyinx/constants"
+import "github.com/loojee/douyinx/pkg/constants"
 
 type GetClientTokenReq struct {
 	ClientKey    string              `json:"client_key"`
@@ -18,8 +18,8 @@ type GetClientTokenResp struct {
 		ClientToken
 		CommonData
 	} `json:"data"`
-	ExtraData ExtraData `json:"extra_data"`
-	Message   string    `json:"message"`
+	Extra   ExtraData `json:"extra"`
+	Message string    `json:"message"`
 }
 
 type GetAccessTokenReq struct {
@@ -43,8 +43,8 @@ type GetAccessTokenResp struct {
 		GetAccessTokenItem
 		CommonData
 	} `json:"data"`
-	ExtraData ExtraData `json:"extra_data"`
-	Message   string    `json:"message"`
+	Extra   ExtraData `json:"extra"`
+	Message string    `json:"message"`
 }
 
 type RenewAccessTokenReq struct {
@@ -66,8 +66,8 @@ type RenewAccessTokenResp struct {
 		GetAccessTokenItem
 		CommonData
 	} `json:"data"`
-	ExtraData ExtraData `json:"extra_data"`
-	Message   string    `json:"message"`
+	Extra   ExtraData `json:"extra"`
+	Message string    `json:"message"`
 }
 
 type RenewRefreshTokenReq struct {
@@ -92,6 +92,6 @@ type RenewRefreshTokenResp struct {
 		RenewRefreshTokenItem
 		CommonData
 	} `json:"data"`
-	ExtraData ExtraData `json:"extra_data"`
-	Message   string    `json:"message"`
+	Extra   ExtraData `json:"extra"`
+	Message string    `json:"message"`
 }

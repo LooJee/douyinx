@@ -3,7 +3,7 @@ package traffic
 import (
 	"context"
 	"github.com/loojee/douyinx/config"
-	"github.com/loojee/douyinx/constants"
+	"github.com/loojee/douyinx/pkg/constants"
 	"github.com/loojee/douyinx/types"
 	"os"
 	"testing"

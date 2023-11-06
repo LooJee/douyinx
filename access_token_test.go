@@ -1,10 +1,10 @@
-package auth
+package douyinx
 
 import (
 	"context"
-	"github.com/loojee/douyinx/cache"
 	"github.com/loojee/douyinx/config"
-	"github.com/loojee/douyinx/traffic"
+	"github.com/loojee/douyinx/pkg/cache"
+	"github.com/loojee/douyinx/pkg/traffic"
 	"os"
 	"testing"
 )
@@ -30,7 +30,7 @@ func TestAccessToken_AccessToken(t *testing.T) {
 
 	t.Log(token)
 
-	refreshToken, err := accessToken.RenewRefreshToken(context.Background(), token.RefreshToken)
+	refreshToken, err := accessToken.RenewRefreshToken(context.Background(), token.OpenId, token.RefreshToken)
 	if err != nil {
 		panic(err)
 	}
