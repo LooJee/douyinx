@@ -40,7 +40,7 @@ func (c *DefaultCache) Set(ctx context.Context, key string, value any, expiratio
 
 	go func() {
 		<-time.After(expiration)
-		val, ok, _ := c.Get(ctx, key)
+		val, ok, _ := c.GetRawValue(ctx, key)
 		if !ok {
 			return
 		}
@@ -50,13 +50,23 @@ func (c *DefaultCache) Set(ctx context.Context, key string, value any, expiratio
 		}
 
 		// 如果数据是和插入时的一样，则删除
-		if val.(*valueItem).CreateAt == createdAt {
+		if val.CreateAt == createdAt {
 			c.Del(ctx, key)
 			expireHook(ctx)
 		}
 	}()
 
 	return nil
+}
+
+func (c *DefaultCache) GetRawValue(ctx context.Context, key string) (*valueItem, bool, error) {
+	val, ok := c.c.Load(key)
+
+	if !ok {
+		return nil, false, nil
+	}
+
+	return val.(*valueItem), ok, nil
 }
 
 func (c *DefaultCache) Get(ctx context.Context, key string) (any, bool, error) {

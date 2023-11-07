@@ -51,8 +51,40 @@ func genUrl(path string) string {
 	return c.conf.DouYinHost + path
 }
 
-func PostJSON(ctx context.Context, path string, req any, resp any) error {
-	rsp, err := c.client.R().SetContext(ctx).SetBody(req).Post(genUrl(path))
+type RequestOption func(*resty.Request)
+
+func WithHeaders(headers map[string]string) func(*resty.Request) {
+	return func(r *resty.Request) {
+		r.SetHeaders(headers)
+	}
+}
+
+func WithQueryParams(params map[string]string) func(*resty.Request) {
+	return func(r *resty.Request) {
+		r.SetQueryParams(params)
+	}
+}
+
+func WithAccessTokenHeader(token string) func(*resty.Request) {
+	return func(r *resty.Request) {
+		r.SetHeader("access-token", token)
+	}
+}
+
+func WithOpenIdQueryParam(openId string) func(*resty.Request) {
+	return func(r *resty.Request) {
+		r.SetQueryParam("open_id", openId)
+	}
+}
+
+func PostJSON(ctx context.Context, path string, req any, resp any, options ...RequestOption) error {
+	r := c.client.R()
+
+	for _, option := range options {
+		option(r)
+	}
+
+	rsp, err := r.SetContext(ctx).SetBody(req).Post(genUrl(path))
 	if err != nil {
 		return err
 	}

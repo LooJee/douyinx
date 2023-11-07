@@ -15,6 +15,10 @@ func (d *CommonData) Error() string {
 }
 
 type ExtraData struct {
-	LogId string `json:"logid"`
-	Now   int64  `json:"now"`
+	LogId          string `json:"logid"`
+	Now            int64  `json:"now"`
+	Description    string `json:"description"`
+	SubErrorCode   int    `json:"sub_error_code"`
+	SubDescription string `json:"sub_description"`
+	ErrorCode      int    `json:"error_code"`
 }

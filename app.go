@@ -7,25 +7,43 @@ import (
 )
 
 type App struct {
-	clientToken *ClientToken
-	accessToken *AccessToken
+	c cache.Cache
 
-	userClient *User
+	clientToken *ClientToken
+	AccessToken *AccessToken
+
+	UserClient    *User
+	Webhook       *Webhook
+	DirectMessage *DirectMessage
 }
 
-func NewApp(conf config.Config, c cache.Cache) (*App, error) {
-	traffic.MustInit(&conf)
+type Option func(*App)
 
-	app := App{
-		clientToken: NewClientTokenRefresher(&conf, c),
-		accessToken: NewAccessToken(&conf, c),
+func WithCache(c cache.Cache) func(*App) {
+	return func(app *App) {
+		app.c = c
+	}
+}
+
+func NewApp(conf *config.Config, options ...Option) (*App, error) {
+	traffic.MustInit(conf)
+
+	app := &App{}
+
+	for _, opt := range options {
+		opt(app)
 	}
 
-	app.userClient = NewUser(app.accessToken)
+	if app.c == nil {
+		app.c = cache.NewDefaultCache()
+	}
 
-	return &app, nil
-}
+	app.clientToken = NewClientTokenRefresher(conf, app.c)
+	app.AccessToken = NewAccessToken(conf, app.c)
 
-func (a *App) User() *User {
-	return a.userClient
+	app.UserClient = NewUser(app.AccessToken)
+	app.Webhook = NewWebhook()
+	app.DirectMessage = NewDirectMessage(app.AccessToken)
+
+	return app, nil
 }

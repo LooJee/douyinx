@@ -9,4 +9,6 @@ const (
 	UriRenewAccessToken  = "/oauth/refresh_token/"       // 刷新 access_token
 
 	UriUserInfo = "/oauth/userinfo/" // 获取用户公开信息
+
+	UriDirectMessage = "/im/send/msg/" // 发送私信消息
 )
