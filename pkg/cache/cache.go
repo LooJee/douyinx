@@ -5,10 +5,11 @@ import (
 	"time"
 )
 
-type ExpiredHook func(context.Context)
+type ExpiredHook func(ctx context.Context, key string)
 
 type Cache interface {
-	Set(ctx context.Context, key string, value any, expiration time.Duration, expireHook ExpiredHook) error
-	Get(ctx context.Context, key string) (any, bool, error)
-	Del(ctx context.Context, key string) error
+	SetExpireHook(resource string, hook ExpiredHook)
+	Set(ctx context.Context, resource, key string, value any, expiration time.Duration) error
+	Get(ctx context.Context, resource, key string) (any, bool, error)
+	Del(ctx context.Context, resource, key string) error
 }

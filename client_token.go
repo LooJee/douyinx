@@ -24,12 +24,13 @@ func NewClientTokenRefresher(config *config.Config, c cache.Cache) *ClientToken 
 		key:    config.CachePrefix + ":client_token",
 	}
 
-	token.mustRefresh(context.Background())
+	token.cache.SetExpireHook(token.key, token.mustRefresh)
+	token.mustRefresh(context.Background(), token.config.ClientKey)
 
 	return token
 }
 
-func (r *ClientToken) mustRefresh(ctx context.Context) {
+func (r *ClientToken) mustRefresh(ctx context.Context, key string) {
 	for {
 		if err := r.refresh(ctx); err != nil {
 			fmt.Println("refresh client token error: ", err)
@@ -62,7 +63,7 @@ func (r *ClientToken) refresh(ctx context.Context) (err error) {
 		return &rsp.Data.CommonData
 	}
 
-	if err := r.cache.Set(ctx, r.key, rsp.Data.AccessToken, time.Duration(rsp.Data.ExpiresIn)*time.Second, r.mustRefresh); err != nil {
+	if err := r.cache.Set(ctx, r.key, r.config.ClientKey, rsp.Data.AccessToken, time.Duration(rsp.Data.ExpiresIn)*time.Second); err != nil {
 		return err
 	}
 
@@ -71,13 +72,13 @@ func (r *ClientToken) refresh(ctx context.Context) (err error) {
 
 // GetToken 获取 client_token
 func (r *ClientToken) GetToken(ctx context.Context) (string, error) {
-	value, ok, err := r.cache.Get(ctx, r.key)
+	value, ok, err := r.cache.Get(ctx, r.key, r.config.ClientKey)
 	if err != nil {
 		return "", err
 	}
 
 	if !ok {
-		r.mustRefresh(ctx)
+		r.mustRefresh(ctx, r.config.ClientKey)
 	}
 
 	return value.(string), nil
