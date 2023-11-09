@@ -111,6 +111,7 @@ type WebHookContentImMessage struct {
 	ConversationType    constants.WebHookConversationType        `json:"conversation_type" mapstructure:"conversation_type"`         // 会话类型
 	CreateTime          int64                                    `json:"create_time" mapstructure:"create_time"`                     // 消息创建时间，13位毫秒时间戳
 	UserInfos           []WebHookContentImEnterDirectMsgUserInfo `json:"user_infos" mapstructure:"user_infos"`
+	Source              string                                   `json:"source" mapstructure:"source"`
 
 	MessageType constants.WebHookMsgType `json:"message_type" mapstructure:"message_type"` // 消息类型
 

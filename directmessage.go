@@ -27,6 +27,7 @@ func (im *DirectMessage) Send(ctx context.Context, openId string, msg types.Dire
 		return "", err
 	}
 	fmt.Println("token: ", token)
+	fmt.Printf("body: %+v", msg)
 	err = traffic.PostJSON(ctx, constants.UriDirectMessage, msg, &resp,
 		traffic.WithAccessTokenHeader(token),
 		traffic.WithOpenIdQueryParam(openId))
