@@ -1,6 +1,7 @@
 package types
 
 import (
+	"encoding/json"
 	"github.com/loojee/douyinx/pkg/constants"
 	"github.com/mitchellh/mapstructure"
 )
@@ -32,6 +33,13 @@ func (w WebHookEvent) ImMessage() (WebHookContentImMessage, error) {
 	}
 
 	err = decoder.Decode(w.Content)
+
+	return data, err
+}
+
+func (w WebHookEvent) ImEnterDirectMsg() (WebHookContentImMessage, error) {
+	var data WebHookContentImMessage
+	err := json.Unmarshal([]byte(w.Content.(string)), &data)
 
 	return data, err
 }
@@ -101,7 +109,7 @@ type WebHookContentImEnterDirectMsg struct {
 	SceneType           constants.WebHookSceneType               `json:"scene_type"`
 	UserInfos           []WebHookContentImEnterDirectMsgUserInfo `json:"user_infos"`
 	DataImExtra         string                                   `json:"data-im-extra"`
-	AdInfo              WebHookContentImEnterDirectMsgAddInfo    `json:"ad_info"`
+	AdInfo              string                                   `json:"ad_info"`
 }
 
 // WebHookContentImMessage im消息事件内容
@@ -112,6 +120,7 @@ type WebHookContentImMessage struct {
 	CreateTime          int64                                    `json:"create_time" mapstructure:"create_time"`                     // 消息创建时间，13位毫秒时间戳
 	UserInfos           []WebHookContentImEnterDirectMsgUserInfo `json:"user_infos" mapstructure:"user_infos"`
 	Source              string                                   `json:"source" mapstructure:"source"`
+	SceneType           constants.WebHookSceneType               `json:"scene_type" mapstructure:"scene_type"`
 
 	MessageType constants.WebHookMsgType `json:"message_type" mapstructure:"message_type"` // 消息类型
 

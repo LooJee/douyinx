@@ -106,3 +106,22 @@ func PostUrlEncodeForm(ctx context.Context, path string, req Former, resp any) e
 
 	return json.Unmarshal(rsp.Body(), &resp)
 }
+
+func UploadImage(ctx context.Context, path string, form MultiPartForm, resp any, options ...RequestOption) error {
+	r := c.client.R()
+
+	for _, option := range options {
+		option(r)
+	}
+
+	rsp, err := r.SetContext(ctx).
+		SetFileReader(form.Param, form.Filename, form.Reader).
+		Post(genUrl(path))
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(rsp.Request.URL)
+
+	return json.Unmarshal(rsp.Body(), &resp)
+}

@@ -15,6 +15,7 @@ type App struct {
 	UserClient    *User
 	Webhook       *Webhook
 	DirectMessage *DirectMessage
+	Tool          *Tool
 }
 
 type Option func(*App)
@@ -44,6 +45,7 @@ func NewApp(conf *config.Config, options ...Option) (*App, error) {
 	app.UserClient = NewUser(app.AccessToken)
 	app.Webhook = NewWebhook()
 	app.DirectMessage = NewDirectMessage(app.AccessToken)
+	app.Tool = NewTool(app.clientToken)
 
 	return app, nil
 }

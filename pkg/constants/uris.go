@@ -1,8 +1,6 @@
 package constants
 
 const (
-	// 用户授权相关 URI
-
 	UriClientToken       = "/oauth/client_token/"        // 获取 client_token
 	UriFetchAccessToken  = "/oauth/access_token/"        // 获取 access_token
 	UriRenewRefreshToken = "/oauth/renew_refresh_token/" // 续期 refresh_token
@@ -10,5 +8,6 @@ const (
 
 	UriUserInfo = "/oauth/userinfo/" // 获取用户公开信息
 
-	UriDirectMessage = "/im/send/msg/" // 发送私信消息
+	UriDirectMessage = "/im/send/msg/"               // 发送私信消息
+	UriImageUpload   = "/tool/imagex/client_upload/" // 上传图片
 )
