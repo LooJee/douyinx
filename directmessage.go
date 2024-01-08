@@ -42,3 +42,29 @@ func (im *DirectMessage) Send(ctx context.Context, openId string, msg types.Dire
 
 	return resp.MsgId, nil
 }
+
+func (im *DirectMessage) Recall(ctx context.Context, openId string, req types.RecallMessageReq) error {
+	var resp types.RecallMessageResp
+
+	token, err := im.accessToken.GetAccessToken(ctx, openId)
+	if err != nil {
+		return err
+	}
+
+	err = traffic.PostJSON(ctx, constants.UriRecallMessage, req, &resp,
+		traffic.WithAccessTokenHeader(token),
+		traffic.WithOpenIdQueryParam(openId))
+
+	if err != nil {
+		return err
+	}
+
+	if resp.ErrNo != 0 {
+		return &errorx.BizError{
+			Code:    resp.ErrNo,
+			Message: resp.ErrMsg,
+		}
+	}
+
+	return nil
+}

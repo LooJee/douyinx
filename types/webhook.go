@@ -104,7 +104,7 @@ type WebHookContentImEnterDirectMsgAddInfo struct {
 type WebHookContentImEnterDirectMsg struct {
 	ConversationShortId string                                   `json:"conversation_short_id"`
 	ServerMessageId     string                                   `json:"server_message_id"`
-	ConversationType    constants.WebHookConversationType        `json:"conversation_type"`
+	ConversationType    constants.ConversationType               `json:"conversation_type"`
 	CreateTime          int64                                    `json:"create_time"`
 	SceneType           constants.WebHookSceneType               `json:"scene_type"`
 	UserInfos           []WebHookContentImEnterDirectMsgUserInfo `json:"user_infos"`
@@ -116,7 +116,7 @@ type WebHookContentImEnterDirectMsg struct {
 type WebHookContentImMessage struct {
 	ConversationShortId string                                   `json:"conversation_short_id" mapstructure:"conversation_short_id"` // 会话id
 	ServerMessageId     string                                   `json:"server_message_id" mapstructure:"server_message_id"`         // 消息id
-	ConversationType    constants.WebHookConversationType        `json:"conversation_type" mapstructure:"conversation_type"`         // 会话类型
+	ConversationType    constants.ConversationType               `json:"conversation_type" mapstructure:"conversation_type"`         // 会话类型
 	CreateTime          int64                                    `json:"create_time" mapstructure:"create_time"`                     // 消息创建时间，13位毫秒时间戳
 	UserInfos           []WebHookContentImEnterDirectMsgUserInfo `json:"user_infos" mapstructure:"user_infos"`
 	Source              string                                   `json:"source" mapstructure:"source"`

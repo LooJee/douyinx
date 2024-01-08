@@ -12,3 +12,10 @@ const (
 	IMMsgTypeAppletCoupon                                // 小程序券
 	IMMsgTypeAuthPrivateMessageCard                      // 服务私信授权卡片
 )
+
+type ConversationType int
+
+const (
+	ConversationTypeSingle ConversationType = iota + 1 // 单聊
+	ConversationTypeGroup                              // 群聊
+)

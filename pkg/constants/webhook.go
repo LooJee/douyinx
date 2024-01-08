@@ -31,13 +31,6 @@ const (
 	WebHookMsgTypeOther             WebHookMsgType = "other"               // 其他 不同类型消息参数见下方介绍
 )
 
-type WebHookConversationType int
-
-const (
-	WebHookConversationTypeDirect WebHookConversationType = iota + 1 // 私信
-	WebHookConversationTypeGroup                                     // 群组
-)
-
 type WebHookSceneType int
 
 const (

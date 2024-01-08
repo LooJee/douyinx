@@ -10,4 +10,5 @@ const (
 
 	UriDirectMessage = "/im/send/msg/"               // 发送私信消息
 	UriImageUpload   = "/tool/imagex/client_upload/" // 上传图片
+	UriRecallMessage = "/im/recall/msg/"             // 撤回消息
 )

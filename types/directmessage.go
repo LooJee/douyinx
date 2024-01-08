@@ -30,3 +30,15 @@ type DirectMessageResp struct {
 	Data  CommonData `json:"data"`
 	Extra ExtraData  `json:"extra"`
 }
+
+type RecallMessageReq struct {
+	MsgId            string `json:"msg_id"`
+	ConversationId   string `json:"conversation_id"`
+	ConversationType constants.ConversationType
+}
+
+type RecallMessageResp struct {
+	ErrMsg string `json:"err_msg"`
+	ErrNo  int    `json:"err_no"`
+	LogId  string `json:"log_id"`
+}
