@@ -32,9 +32,9 @@ type DirectMessageResp struct {
 }
 
 type RecallMessageReq struct {
-	MsgId            string `json:"msg_id"`
-	ConversationId   string `json:"conversation_id"`
-	ConversationType constants.ConversationType
+	MsgId            string                     `json:"msg_id"`
+	ConversationId   string                     `json:"conversation_id"`
+	ConversationType constants.ConversationType `json:"conversation_type"`
 }
 
 type RecallMessageResp struct {
