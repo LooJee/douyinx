@@ -32,3 +32,23 @@ func (t *Tool) UploadImage(ctx context.Context, form traffic.MultiPartForm) (typ
 
 	return rsp.ImageUploadRspData, nil
 }
+
+func (t *Tool) GetJsbTicket(ctx context.Context) (types.JSBTicket, error) {
+	rsp := types.JSBTicketResp{}
+	clientToken, err := t.clientToken.GetToken(ctx)
+	if err != nil {
+		return types.JSBTicket{}, err
+	}
+	if err := traffic.Get(ctx, constants.UriJsbTicket, &rsp, traffic.WithAccessTokenHeader(clientToken)); err != nil {
+		return types.JSBTicket{}, err
+	}
+
+	if rsp.Data.ErrorCode != 0 {
+		return types.JSBTicket{}, &errorx.BizError{
+			Code:    rsp.Data.ErrorCode,
+			Message: rsp.Data.Description,
+		}
+	}
+
+	return rsp.Data, nil
+}
