@@ -12,4 +12,7 @@ const (
 	UriImageUpload   = "/tool/imagex/client_upload/" // 上传图片
 	UriRecallMessage = "/im/recall/msg/"             // 撤回消息
 	UriJsbTicket     = "/js/getticket/"
+
+	UriOauthQrcode      = "/oauth/get_qrcode/"   // 获取授权二维码
+	UriCheckOauthQrcode = "/oauth/check_qrcode/" // 检查授权二维码
 )
