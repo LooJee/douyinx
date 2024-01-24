@@ -115,7 +115,7 @@ func (a *AccessToken) RenewRefreshToken(ctx context.Context, openId, refreshToke
 
 	refreshItem := resp.Data.RenewRefreshTokenItem
 
-	return refreshItem, a.c.Set(ctx, a.refreshTokenKey, openId, refreshToken, time.Duration(refreshItem.ExpiresIn)*time.Second)
+	return refreshItem, a.c.Set(ctx, a.refreshTokenKey, openId, refreshItem.RefreshToken, time.Duration(refreshItem.ExpiresIn)*time.Second)
 }
 
 func (a *AccessToken) RefreshTokenExpireHook(ctx context.Context, openId string) {
