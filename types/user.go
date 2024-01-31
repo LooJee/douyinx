@@ -30,3 +30,31 @@ type GetUserInfoResp struct {
 	Extra   ExtraData `json:"extra"`
 	Message string    `json:"message"`
 }
+
+type RoleLabel string
+
+const (
+	RoleLabelCompanyBand RoleLabel = "COMPANY_BAND"
+	RoleLabelAuthCompany RoleLabel = "AUTH_COMPANY"
+	RoleLabelStaff       RoleLabel = "STAFF"
+	RoleLabelOpenBrand   RoleLabel = "OPEN_BRAND"
+	RoleLabelOpenStaff   RoleLabel = "OPEN_STAFF"
+	RoleLabelOpenPartner RoleLabel = "OPEN_PARTNER"
+)
+
+type RoleCheckReq struct {
+	OpenId     string      `json:"open_id"`
+	RoleLabels []RoleLabel `json:"role_labels"`
+}
+
+type RoleCheckItem struct {
+	MatchResult bool               `json:"match_result"`
+	FilterRole  map[RoleLabel]bool `json:"filter_role"`
+}
+
+type RoleCheckResp struct {
+	Data   RoleCheckItem `json:"data"`
+	ErrNo  int64         `json:"err_no"`
+	ErrMsg string        `json:"err_msg"`
+	LogId  string        `json:"log_id"`
+}

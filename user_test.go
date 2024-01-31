@@ -14,6 +14,7 @@ func TestUser_GetUserInfo(t *testing.T) {
 	traffic.MustInit(conf)
 	c := cache.NewDefaultCache()
 	accessToken := NewAccessToken(conf, c)
+	clientToken := NewClientTokenRefresher(conf, c)
 
 	token, err := accessToken.FetchToken(context.Background(), "a4316d37fc2442faRLSZhRjmLsQQi08I0f7h")
 	if err != nil {
@@ -22,7 +23,7 @@ func TestUser_GetUserInfo(t *testing.T) {
 
 	t.Log("token: ", token)
 
-	user := NewUser(accessToken)
+	user := NewUser(accessToken, clientToken)
 
 	userInfo, err := user.GetUserInfo(context.Background(), token.OpenId)
 	if err != nil {
