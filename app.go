@@ -42,7 +42,7 @@ func NewApp(conf *config.Config, options ...Option) (*App, error) {
 	app.clientToken = NewClientTokenRefresher(conf, app.c)
 	app.AccessToken = NewAccessToken(conf, app.c)
 
-	app.UserClient = NewUser(app.AccessToken)
+	app.UserClient = NewUser(app.AccessToken, app.clientToken)
 	app.Webhook = NewWebhook()
 	app.DirectMessage = NewDirectMessage(app.AccessToken)
 	app.Tool = NewTool(app.clientToken)
