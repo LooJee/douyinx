@@ -170,3 +170,11 @@ func (a *AccessToken) GetRefreshToken(ctx context.Context, openId string) (strin
 
 	return value.(string), nil
 }
+
+func (a *AccessToken) ResetToken(ctx context.Context, openId string) error {
+	if err := a.c.Del(ctx, a.accessTokenKey, openId); err != nil {
+		return err
+	}
+
+	return a.c.Del(ctx, a.refreshTokenKey, openId)
+}
