@@ -44,6 +44,45 @@ func (w WebHookEvent) ImEnterDirectMsg() (WebHookContentImMessage, error) {
 	return data, err
 }
 
+func (w WebHookEvent) Authorize() (WebHookContentAuthorize, error) {
+	var data WebHookContentAuthorize
+	err := mapstructure.Decode(w.Content, &data)
+
+	return data, err
+}
+
+func (w WebHookEvent) UnAuthorize() (WebHookContentUnAuthorize, error) {
+	var data WebHookContentUnAuthorize
+
+	err := mapstructure.Decode(w.Content, &data)
+
+	return data, err
+}
+
+func (w WebHookEvent) ContractAuthorize() (WebHookContentContractAuthorize, error) {
+	var data WebHookContentContractAuthorize
+
+	if content, ok := w.Content.(string); ok {
+		err := json.Unmarshal([]byte(content), &data)
+
+		return data, err
+	}
+
+	return data, ErrInvalidContentFormat
+}
+
+func (w WebHookEvent) ContractUnAuthorize() (WebHookContentContractUnAuthorize, error) {
+	var data WebHookContentContractUnAuthorize
+
+	if content, ok := w.Content.(string); ok {
+		err := json.Unmarshal([]byte(content), &data)
+
+		return data, err
+	}
+
+	return data, ErrInvalidContentFormat
+}
+
 type WebHookContentChallenge struct {
 	Challenge int `json:"challenge" mapstructure:"challenge"`
 }

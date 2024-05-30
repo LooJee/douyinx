@@ -6,7 +6,8 @@ const (
 	UriRenewRefreshToken = "/oauth/renew_refresh_token/" // 续期 refresh_token
 	UriRenewAccessToken  = "/oauth/refresh_token/"       // 刷新 access_token
 
-	UriUserInfo = "/oauth/userinfo/" // 获取用户公开信息
+	UriUserInfo  = "/oauth/userinfo/"           // 获取用户公开信息
+	UriRoleCheck = "/api/douyin/v1/role/check/" // 用户经营身份管理
 
 	UriDirectMessage = "/im/send/msg/"               // 发送私信消息
 	UriImageUpload   = "/tool/imagex/client_upload/" // 上传图片

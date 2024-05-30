@@ -2,7 +2,6 @@ package douyinx
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/loojee/douyinx/config"
 	"github.com/loojee/douyinx/pkg/cache"
@@ -152,7 +151,10 @@ func (a *AccessToken) GetAccessToken(ctx context.Context, openId string) (string
 	}
 
 	if !ok {
-		return "", errors.New("需要授权")
+		return "", &errorx.BizError{
+			Code:    -1,
+			Message: "需要授权",
+		}
 	}
 
 	return value.(string), nil
@@ -165,8 +167,19 @@ func (a *AccessToken) GetRefreshToken(ctx context.Context, openId string) (strin
 	}
 
 	if !ok {
-		return "", errors.New("需要授权")
+		return "", &errorx.BizError{
+			Code:    -1,
+			Message: "需要授权",
+		}
 	}
 
 	return value.(string), nil
+}
+
+func (a *AccessToken) ResetToken(ctx context.Context, openId string) error {
+	if err := a.c.Del(ctx, a.accessTokenKey, openId); err != nil {
+		return err
+	}
+
+	return a.c.Del(ctx, a.refreshTokenKey, openId)
 }
